@@ -7,12 +7,24 @@ import { authenticate } from "./middleware";
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://your-coffee-frontend.vercel.app",
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS policy does not allow access from ${origin}`));
+      }
+    },
     credentials: true,
   })
 );
+
 app.use(authenticate);
 
 app.use(
