@@ -1,81 +1,41 @@
-# Turborepo starter
+# 당신의 커피 (Your Coffee)
 
-This is an official starter Turborepo.
+커피 취향을 발견하고, 다양한 커피 데이터를 탐색하며, 나만의 커피를 추천해주는 서비스입니다.
 
-## Using this example
+## 주요 기능
 
-Run the following command:
+- 커피 데이터 탐색
 
-```sh
-npx create-turbo@latest
-```
+  - 다양한 커피 목록을 제공하며, 상세한 커피 정보를 확인할 수 있습니다.
+  - 무한 스크롤과 윈도윙(windowing) 최적화를 통해 성능 저하 없이 부드러운 탐색이 가능합니다.
 
-## What's inside?
+![](./docs/screenshots/home.png)
 
-This Turborepo includes the following packages/apps:
+- 좋아요 및 태그 기반 추천:
 
-### Apps and Packages
+  - 사용자는 커피에 '좋아요'를 누를 수 있으며, 이를 기반으로 개인화된 커피 태그 선호도를 분석하여 추천합니다.
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+![](./docs/screenshots/recommend.png)
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+- 필터링 및 정렬:
 
-### Utilities
+  - 다양한 태그와 조건(가격, 평점 등)을 기반으로 커피를 필터링하고 정렬할 수 있습니다.
 
-This Turborepo has some additional tools already setup for you:
+![](./docs/screenshots/filter.png)
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+- 커피 상세 정보:
 
-### Build
+  - 커피에 대한 상세 설명, 원산지, 로스터 정보, 향미 노트 등 심층적인 데이터를 제공합니다.
 
-To build all apps and packages, run the following command:
+![](./docs/screenshots/detail.png)
 
-```
-cd my-turborepo
-pnpm build
-```
+## 기술 스택
 
-### Develop
+- 프론트엔드
+  - Vite, React, Apollo Client, shadcn ui
+- 백엔드
+  - Express, GraphQL, Prisma
 
-To develop all apps and packages, run the following command:
+## 데이터
 
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+- [공개된 캐글의 데이터셋](https://www.kaggle.com/datasets/schmoyote/coffee-reviews-dataset)을 가공해서 사용했습니다.
