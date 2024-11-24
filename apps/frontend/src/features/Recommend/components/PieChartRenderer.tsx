@@ -35,7 +35,15 @@ const PieChartRenderer = ({
     "hsl(var(--chart-6))",
   ];
 
-  const chartConfig = data.reduce((config, item, index) => {
+  const chartConfig = data.reduce<
+    Record<
+      string,
+      {
+        label: string;
+        color: string;
+      }
+    >
+  >((config, item, index) => {
     const key = `data-${index}`;
     config[key] = {
       label: item.name,
