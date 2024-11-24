@@ -1,0 +1,94 @@
+type Tag {
+  id: Int
+  name: String
+}
+
+type CoffeeItem {
+  id: Int
+  name: String
+  roaster: String
+  roast: String
+  locCountry: String
+  origin1: String
+  origin2: String
+  price: Float
+  rating: Int
+  desc: String
+  tags: [Tag]
+}
+
+type CoffeeItemConnection {
+  items: [CoffeeItem]
+  hasNextPage: Boolean
+}
+
+type CommentDetail {
+  id: Int
+  userId: String
+  content: String
+  createdAt: String
+}
+
+type CoffeeItemDetail {
+  id: Int
+  name: String
+  roaster: String
+  roast: String
+  locCountry: String
+  origin1: String
+  origin2: String
+  price: Float
+  rating: Int
+  desc: String
+  createdAt: String
+  updatedAt: String
+  tags: [Tag]
+  likesCount: Int
+  comments: [CommentDetail]
+  userLiked: Boolean
+}
+
+type Query {
+  coffeeItems(
+    page: Int = 1
+    pageSize: Int = 10
+    sortBy: String
+    sortOrder: String = "asc"
+    filterCountry: String
+    filterTags: [Int]
+  ): CoffeeItemConnection
+
+  getCoffeeItemById(id: Int!): CoffeeItemDetail
+
+  getTags: [Tag!]!
+
+  getLikedCoffeeStats: CoffeeStats!
+}
+
+type Mutation {
+  setLikeCoffeeItem(id: Int!, liked: Boolean!): LikeResponse!
+  addComment(coffeeItemId: Int!, content: String!): Comment!
+}
+
+type LikeResponse {
+  coffeeItemId: Int!
+  liked: Boolean!
+}
+
+type Comment {
+  id: Int!
+  userId: String!
+  coffeeItemId: Int!
+  content: String!
+  createdAt: String!
+}
+
+type CoffeeStats {
+  tags: [TagStat!]!
+}
+
+type TagStat {
+  tag: String!
+  count: Int!
+  id: Int!
+}

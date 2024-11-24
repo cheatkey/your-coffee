@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model CoffeeItem {
+  id          Int       @id @default(autoincrement())
+  name        String
+  roaster     String
+  roast       String
+  locCountry  String    // 지역 국가
+  origin1     String    // 원산지 1
+  origin2     String    // 원산지 2
+  price       Float     // 100g당 가격
+  rating      Int       // 평점
+  desc        String    // 상세 설명
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  tags        CoffeeItemTag[] // 커피 아이템과 연결된 태그
+
+  likes       Like[]          // 좋아요
+  comments    Comment[]       // 댓글
+
+  @@map("coffee_items") // 테이블 이름
+}
+
+model Tag {
+  id          Int       @id @default(autoincrement())
+  name        String     @unique // 태그 이름 (중복 불가)
+
+  coffeeItems CoffeeItemTag[] // 커피 아이템과 연결된 태그
+
+  @@map("tags") // 테이블 이름
+}
+
+model CoffeeItemTag {
+  id          Int       @id @default(autoincrement())
+  coffeeItem  CoffeeItem @relation(fields: [coffeeItemId], references: [id], onDelete: Cascade)
+  coffeeItemId Int
+
+  tag         Tag        @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  tagId       Int
+
+  @@unique([coffeeItemId, tagId]) // 하나의 커피 아이템에 같은 태그를 중복 추가 방지
+  @@map("coffee_item_tags") // 테이블 이름
+}
+
+model Like {
+  id          Int       @id @default(autoincrement())
+  userId      String    // Supabase user ID
+  coffeeItem  CoffeeItem @relation(fields: [coffeeItemId], references: [id], onDelete: Cascade)
+  coffeeItemId Int
+
+  createdAt   DateTime  @default(now())
+
+  @@unique([userId, coffeeItemId]) // 유저가 같은 커피 아이템에 좋아요를 여러 번 누를 수 없음
+  @@map("likes") // 테이블 이름
+}
+
+model Comment {
+  id          Int       @id @default(autoincrement())
+  userId      String    // Supabase user ID
+  coffeeItem  CoffeeItem @relation(fields: [coffeeItemId], references: [id], onDelete: Cascade)
+  coffeeItemId Int
+  content     String     // 댓글 내용
+  createdAt   DateTime  @default(now())
+
+  @@map("comments") // 테이블 이름
+}
