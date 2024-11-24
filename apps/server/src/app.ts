@@ -4,6 +4,7 @@ import { schema } from "./schema";
 import { root } from "./resolvers";
 import cors from "cors";
 import { authenticate } from "./middleware";
+import https from "https";
 
 const app = express();
 
@@ -40,6 +41,27 @@ app.use(
     };
   })
 );
+
+app.get("/health", (_req, res) => {
+  res.status(200).json({
+    status: "OK",
+    uptime: process.uptime(),
+    timestamp: new Date(),
+  });
+});
+
+const SELF_PING_INTERVAL = 14 * 60 * 1000;
+const SERVER_URL = `${process.env.SERVER_URL}/health` as string;
+
+setInterval(() => {
+  https
+    .get(SERVER_URL, (res) => {
+      console.log(`Self-ping successful. Status code: ${res.statusCode}`);
+    })
+    .on("error", (err) => {
+      console.error("Self-ping failed:", err.message);
+    });
+}, SELF_PING_INTERVAL);
 
 const PORT = 4000;
 
